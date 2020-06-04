@@ -2,24 +2,27 @@ import React,{ useReducer, useState } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reducer from '../reducers';
+import Event from './Event';
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, [])
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
 
-const [state, dispatch ] = useReducer(reducer, [])
-const[title, setTitle] = useState('')
-const[body, setBody]= useState('')
-const addEvent = e => {
-e.preventDefault()
+  const addEvent = e => {
+    e.preventDefault()
 
-dispatch({
-   type:'CREATE_EVENT',
-   title,
-   body
-})
-setTitle('')
-setBody('')
-}
+    dispatch({
+     type: 'CREATE_EVENT',
+     title,
+     body
+    })
+
+    setTitle('')
+    setBody('')
+  }
+
   return (
-　　 <div className="container-fluid">
+    <div className="container-fluid">
       <h4>イベント作成フォーム</h4>
       <form>
         <div className="form-group">
@@ -47,12 +50,11 @@ setBody('')
           </tr>
         </thead>
         <tbody>
+          { state.map((event, index) => (<Event key={index} event={event} dispatch={dispatch} />))}
         </tbody>
       </table>
     </div>
   )
-    
-
 }
 
-export default App;
+export default App
